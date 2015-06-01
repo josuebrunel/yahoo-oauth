@@ -11,16 +11,28 @@ import webbrowser
 from rauth import OAuth1Service
 from rauth.utils import parse_utf8_qsl
 
-from myql.utils import json_write_data, json_get_data
+logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
+logging.getLogger('yahoo-oauth')
+
+
+#######################################
+#
+#           WRITE JSON DATA
+#
+#######################################
+def json_write_data(json_data, filename):
+    
+    with open(filename, 'w') as fp:
+        json.dump(json_ddata, fp, indent=4, sort_key=True, ensure_ascii=False)
+        return True
+    return False
+
 
 BASE_URL = "http://query.yahooapis.com/v1/yql"
 REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token"
 ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token"
 AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token="
 CALLBACK_URI = 'oob'
-
-logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
-logging.getLogger(__name__)
 
 
 class YOAuth(object):
