@@ -14,8 +14,7 @@ class testYahooOAuth(unittest.TestCase):
         self.d = {'ck':'consumer_key','cs':'consumer_secret'} 
 
     def tearDown(self):
-        pass
-        #os.unlink('test.json')
+        os.unlink('test.json')
 
     def test_json_1_write_data(self,):
         json_write_data(self.d, 'test.json')
