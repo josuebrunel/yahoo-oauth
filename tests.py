@@ -16,7 +16,7 @@ class testYahooOAuth(unittest.TestCase):
     def tearDown(self):
         os.unlink('test.json')
 
-    def test_json_1_write_data(self,):
+    def test_1_json_write_data(self,):
         json_write_data(self.d, 'test.json')
         self.assertEquals(os.path.exists('test.json'),True)
 
