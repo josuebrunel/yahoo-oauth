@@ -1,5 +1,5 @@
 """
-YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
+BaseOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
 """
 from __future__ import absolute_import
 
@@ -8,7 +8,7 @@ import time
 import logging
 import webbrowser
 
-from rauth import OAuth1Service
+from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
 logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
@@ -40,10 +40,11 @@ AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_t
 CALLBACK_URI = 'oob'
 
 
-class YOAuth(object):
+
+class BaseOAuth(object):
     """
     """
-    def __init__(self, consumer_key, consumer_secret, **kwargs):
+    def __init__(self, oauth_version, base_url, consumer_key, consumer_secret, **kwargs):
         """
         consumer_key : client key
         consumer_secret : client secret
@@ -51,6 +52,11 @@ class YOAuth(object):
         access_token_secret : access token secret
         from_file : file containing the credentials
         """
+        services = {
+            'oauth1': OAuth1Service,
+            'oauth2': OAuth2Service
+        }
+
         if kwargs.get('from_file'):
             logging.debug("Checking ")
             self.from_file = kwargs.get('from_file')
@@ -61,15 +67,20 @@ class YOAuth(object):
             self.consumer_secret = consumer_secret
             vars(self).update(kwargs)
 
+        self.base_url = base_url
+        self.oauth_version = oauth_version
+        self.callback_uri = vars(self).get('callback_uri',CALLBACK_URI)
+
         # Init OAuth
-        self.oauth = OAuth1Service(
+        #self.oauth = OAuth1Service(
+        self.oauth = services[oauth_version](
             consumer_key = self.consumer_key,
             consumer_secret = self.consumer_secret,
             name = "yahoo",
             request_token_url = REQUEST_TOKEN_URL,
             access_token_url = ACCESS_TOKEN_URL,
             authorize_url = AUTHORIZE_TOKEN_URL,
-            base_url = BASE_URL
+            base_url = self.base_url
         )
 
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
@@ -77,7 +88,7 @@ class YOAuth(object):
                 self.session = self.refresh_token() 
         else:
             # Fetching request token/token_secret
-            request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': CALLBACK_URI})
+            request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': self.callback_uri})
             logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
             #authorize_url = self.oauth.get_authorize_url(request_token)
             authorize_url = AUTHORIZE_TOKEN_URL+request_token
@@ -127,4 +138,22 @@ class YOAuth(object):
 
         logging.debug("TOKEN IS STILL VALID")
         return True
+
+
+class OAuth1(BaseOAuth):
+    """Class handling OAuth v1
+    """
+
+    def __init__(self, consumer_key, consumer_secret, base_url, **kwargs):
+        
+        super(OAuth1, self).__init__('oauth1', base_url, consumer_key, consumer_secret, **kwargs)
+
+
+class OAuth2(BaseOAuth):
+    """Calss handling OAuth v2
+    """
+
+    def __init__(self, consumer_key, consumer_secret, base_url, **kwargs):
+        pass
+
 

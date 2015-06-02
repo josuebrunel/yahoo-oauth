@@ -6,5 +6,7 @@ python:
   - "3.4"
   - "pypy"
   - "pypy3"
-install: "pip install -r requirements.txt"
+install: 
+  - "pip install -r requirements.txt"
+  - "pip install myql"
 script: ./run_tests.sh
