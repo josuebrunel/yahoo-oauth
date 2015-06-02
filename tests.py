@@ -31,7 +31,7 @@ class testYahooOAuth(unittest.TestCase):
         oauth = OAuth1(None, None, 'http://query.yahooapis.com/v1/yql',from_file='credentials.json')
         yql = myql.MYQL(oauth=oauth)
         response = yql.getGUID('josue_brunel')
-        self.assertEqual(response.status,200)
+        self.assertEqual(response.status_code,200)
 
     def test_oauth2(self,):
         pass
