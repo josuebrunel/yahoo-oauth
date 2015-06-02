@@ -44,7 +44,7 @@ CALLBACK_URI = 'oob'
 class BaseOAuth(object):
     """
     """
-    def __init__(self, oauth_version, base_url, consumer_key, consumer_secret, **kwargs):
+    def __init__(self, oauth_version, consumer_key, consumer_secret, **kwargs):
         """
         consumer_key : client key
         consumer_secret : client secret
@@ -65,9 +65,9 @@ class BaseOAuth(object):
         else:
             self.consumer_key = consumer_key
             self.consumer_secret = consumer_secret
-            vars(self).update(kwargs)
 
-        self.base_url = base_url
+        vars(self).update(kwargs)
+
         self.oauth_version = oauth_version
         self.callback_uri = vars(self).get('callback_uri',CALLBACK_URI)
 
@@ -80,7 +80,7 @@ class BaseOAuth(object):
             request_token_url = REQUEST_TOKEN_URL,
             access_token_url = ACCESS_TOKEN_URL,
             authorize_url = AUTHORIZE_TOKEN_URL,
-            base_url = self.base_url
+            base_url = vars(self).get('base_url',None)
         )
 
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
@@ -144,16 +144,17 @@ class OAuth1(BaseOAuth):
     """Class handling OAuth v1
     """
 
-    def __init__(self, consumer_key, consumer_secret, base_url, **kwargs):
+    def __init__(self, consumer_key, consumer_secret, **kwargs):
         
-        super(OAuth1, self).__init__('oauth1', base_url, consumer_key, consumer_secret, **kwargs)
+        super(OAuth1, self).__init__('oauth1', consumer_key, consumer_secret, **kwargs)
 
 
 class OAuth2(BaseOAuth):
     """Calss handling OAuth v2
     """
 
-    def __init__(self, consumer_key, consumer_secret, base_url, **kwargs):
-        pass
+    def __init__(self, consumer_key, consumer_secret, **kwargs):
+       
+        super(OAuth2, self).__init__('aouth2', consumer_key, consumer_secret, **kwargs)
 
-
+     
