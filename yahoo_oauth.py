@@ -3,6 +3,12 @@ BaseOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempine
 """
 from __future__ import absolute_import
 
+try:
+    input = raw_input
+except NameError:
+    pass
+
+import pdb
 import json
 import time
 import logging
@@ -32,13 +38,20 @@ def json_get_data(filename):
 
     return False
 
-
-BASE_URL = "http://query.yahooapis.com/v1/yql"
-REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token"
-ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token"
-AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token="
+services = {
+    'oauth1' : dict(
+        SERVICE = OAuth1Service,
+        REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token",
+        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token",
+        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth"
+    ),
+    'oauth2' : dict(
+        SERVICE = OAuth2Service,
+        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth2/request_auth",
+        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
+    )
+}
 CALLBACK_URI = 'oob'
-
 
 
 class BaseOAuth(object):
@@ -53,11 +66,7 @@ class BaseOAuth(object):
         from_file : file containing the credentials
         """
         self.oauth_version = oauth_version
-        services = {
-            'oauth1': OAuth1Service,
-            'oauth2': OAuth2Service
-        }
-
+        
         if kwargs.get('from_file'):
             logging.debug("Checking ")
             self.from_file = kwargs.get('from_file')
@@ -77,7 +86,7 @@ class BaseOAuth(object):
             service_params = {
                 'consumer_key': self.consumer_key,
                 'consumer_secret' : self.consumer_secret,
-                'request_token_url': REQUEST_TOKEN_URL
+                'request_token_url': services[self.oauth_version]['REQUEST_TOKEN_URL']
             }
         else:
             service_params = {
@@ -86,37 +95,23 @@ class BaseOAuth(object):
             }
 
         service_params.update({
-            'name' : "yahoo",
-            'access_token_url' : ACCESS_TOKEN_URL,
-            'authorize_url' : AUTHORIZE_TOKEN_URL,
+            'name' : 'yahoo',
+            'access_token_url' : services[self.oauth_version]['ACCESS_TOKEN_URL'],
+            'authorize_url' : services[self.oauth_version]['AUTHORIZE_TOKEN_URL'],
             'base_url': vars(self).get('base_url',None)
-
         })
-        self.oauth = services[oauth_version](**service_params)
+        self.oauth = services[oauth_version]['SERVICE'](**service_params)
         
 
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
                 self.session = self.refresh_token() 
         else:
-            # Fetching request token/token_secret
-            request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': self.callback_uri})
-            logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
-            #authorize_url = self.oauth.get_authorize_url(request_token)
-            authorize_url = AUTHORIZE_TOKEN_URL+request_token
-            logging.debug(authorize_url)
-            webbrowser.open(authorize_url)
-            verifier = raw_input("Enter verifier : ")
-            logging.debug("VERIFIER = {0}".format(verifier))
-
-            self.token_time = time.time()
-            raw_acess = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": verifier})
-            parsed_acess = parse_utf8_qsl(raw_acess.content)
-
-            self.access_token = parsed_acess['oauth_token']
-            self.access_token_secret = parsed_acess['oauth_token_secret']
-            self.session_handle = parsed_acess['oauth_session_handle']
-
+            if self.oauth_version == 'oauth1':
+                self.oauth1_handler()
+            else:
+                self.oauth2_handler()
+            
         self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
 
         json_data.update({
@@ -127,6 +122,38 @@ class BaseOAuth(object):
         })
 
         json_write_data(json_data, self.from_file)
+
+    def oauth1_handler(self,):
+        """get request token, redirect user and get access tokens
+        """
+        request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': self.callback_uri})
+        logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
+
+        authorize_url = self.oauth.get_authorize_url(request_token)
+        logging.debug(authorize_url)
+        webbrowser.open(authorize_url)
+        verifier = input("Enter verifier : ")
+        logging.debug("VERIFIER = {0}".format(verifier))
+
+        self.token_time = time.time()
+        raw_access = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": verifier})
+        parsed_acess = parse_utf8_qsl(raw_access.content)
+
+        self.access_token = parsed_acess['oauth_token']
+        self.access_token_secret = parsed_acess['oauth_token_secret']
+        self.session_handle = parsed_acess['oauth_session_handle']
+
+    def oauth2_handler(self,):
+        """
+        """
+        url = self.oauth.get_authorize_url(client_secret=self.consumer_secret, redirect_uri=self.callback_uri, response_type='code')
+        logging.debug("AUTHORISATION URL : {0}".format(url))
+        webbrowser.open(url)
+        verifier = input("Enter verifier : ")
+        logging.debug("VERIFIER = {0}".format(verifier))
+        raw_access = self.oauth.get_raw_access_token(params={"code": verifier})
+        pdb.set_trace() 
+        self.oauth.get_auth_session(data={'code':verifier, 'redirect_uri': self.callback_uri})
 
     def refresh_token(self,):
         """Refresh access token
