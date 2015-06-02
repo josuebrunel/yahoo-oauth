@@ -6,12 +6,12 @@ import myql
 from myql.utils import pretty_json
 
 from yahoo_oauth import json_write_data, json_get_data
-from yahoo_oauth import OAuth1
+from yahoo_oauth import OAuth1, OAuth2
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger('yahoo-oauth')
 
-class testYahooOAuth(unittest.TestCase):
+class TestYahooOAuth(unittest.TestCase):
     """Class to tests Yahoo OAuth module
     """
 
@@ -30,11 +30,14 @@ class testYahooOAuth(unittest.TestCase):
         self.assertEquals(self.d,json_data)
 
     def test_oauth1(self,):
-        oauth = OAuth1(None, None, 'http://query.yahooapis.com/v1/yql',from_file='credentials.json')
+        oauth = OAuth1(None, None, from_file='credentials.json')
         yql = myql.MYQL(oauth=oauth)
         response = yql.getGUID('josue_brunel')
         logging.debug(pretty_json(response.content)) 
         self.assertEqual(response.status_code,200)
 
     def test_oauth2(self,):
-        pass
+        oauth = OAuth2(None, None, from_file='credentials.json')
+        response = oauth.session.get('https://social.yahooapis.com/v1/me/guid')
+        logging.debug(pretty_json(response.content)) 
+        self.assertEqual(response.status_code,200)
