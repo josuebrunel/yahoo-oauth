@@ -52,6 +52,7 @@ class BaseOAuth(object):
         access_token_secret : access token secret
         from_file : file containing the credentials
         """
+        self.oauth_version = oauth_version
         services = {
             'oauth1': OAuth1Service,
             'oauth2': OAuth2Service
@@ -72,16 +73,27 @@ class BaseOAuth(object):
         self.callback_uri = vars(self).get('callback_uri',CALLBACK_URI)
 
         # Init OAuth
-        #self.oauth = OAuth1Service(
-        self.oauth = services[oauth_version](
-            consumer_key = self.consumer_key,
-            consumer_secret = self.consumer_secret,
-            name = "yahoo",
-            request_token_url = REQUEST_TOKEN_URL,
-            access_token_url = ACCESS_TOKEN_URL,
-            authorize_url = AUTHORIZE_TOKEN_URL,
-            base_url = vars(self).get('base_url',None)
-        )
+        if self.oauth_version == 'oauth1':
+            service_params = {
+                'consumer_key': self.consumer_key,
+                'consumer_secret' : self.consumer_secret,
+                'request_token_url': REQUEST_TOKEN_URL
+            }
+        else:
+            service_params = {
+                'client_id': self.consumer_key,
+                'client_secret': self.consumer_secret
+            }
+
+        service_params.update({
+            'name' : "yahoo",
+            'access_token_url' : ACCESS_TOKEN_URL,
+            'authorize_url' : AUTHORIZE_TOKEN_URL,
+            'base_url': vars(self).get('base_url',None)
+
+        })
+        self.oauth = services[oauth_version](**service_params)
+        
 
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
@@ -155,6 +167,6 @@ class OAuth2(BaseOAuth):
 
     def __init__(self, consumer_key, consumer_secret, **kwargs):
        
-        super(OAuth2, self).__init__('aouth2', consumer_key, consumer_secret, **kwargs)
+        super(OAuth2, self).__init__('oauth2', consumer_key, consumer_secret, **kwargs)
 
      
