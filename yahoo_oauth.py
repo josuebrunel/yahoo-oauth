@@ -14,6 +14,8 @@ import time
 import logging
 import webbrowser
 
+import base64
+
 from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
@@ -151,7 +153,10 @@ class BaseOAuth(object):
         webbrowser.open(url)
         verifier = input("Enter verifier : ")
         logging.debug("VERIFIER = {0}".format(verifier))
-        raw_access = self.oauth.get_raw_access_token(params={"code": verifier})
+        encoded_credentials = base64.b64encode(('{0}:{1}'.format(self.consumer_key,self.consumer_secret)).encode('utf-8'))
+        headers={'Authorization':'Basic {0}'.format(encoded_credentials.decode('utf-8'))}
+        raw_access = self.oauth.get_raw_access_token(data={"code": verifier, 'redirect_uri': self.callback_uri,'grant_type':'authorization_code'}, headers=headers)
+        parsed_access = parse_utf8_qsl(raw_access.content.decode('utf-8'))
         pdb.set_trace() 
         self.oauth.get_auth_session(data={'code':verifier, 'redirect_uri': self.callback_uri})
 
