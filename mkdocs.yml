@@ -1,1 +1,8 @@
-site_name: My Docs
+site_name: Yahoo-OAuth
+repo_url: https://github.com/josuebrunel/yahoo-oauth
+site_url: http://yahoo-oauth.readthedocs.org/en/latest/yahoo-oauth/
+site_description: Documentation on the Yahoo-OAuth Library
+site_author: Josue Kouka
+pages:
+-    [index.md, Yahoo OAuth]
+theme: readthedocs
