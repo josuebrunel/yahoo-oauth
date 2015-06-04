@@ -13,7 +13,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-  name = "yahoo-oauth",
+  name = "yahoo_oauth",
   version = __version__,
   description = "Python Yahoo OAuth Library",
   long_description = read("README.rst"),
