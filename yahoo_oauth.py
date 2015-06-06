@@ -120,8 +120,6 @@ class BaseOAuth(object):
         if self.oauth_version == 'oauth1':
             self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
         else:
-            #self.session = self.oauth.get_auth_session(data={'code': self.verifier, 'redirect_uri': self.callback_uri}, decoder=lambda b: json.loads(str(b)))
-            #self.session = self.oauth.get_auth_session(data={'code': self.verifier, 'redirect_uri': self.callback_uri}, decoder=self.custom_decoder)
             self.session = self.oauth.get_session(token=self.access_token)
 
         json_write_data(json_data, self.from_file)
@@ -180,16 +178,6 @@ class BaseOAuth(object):
         headers={'Authorization':'Basic {0}'.format(encoded_credentials.decode('utf-8'))}
 
         return headers
-
-    def custom_decoder(self, data, encoding='utf-8'):
-        """Custom decoder for auth_session
-        """
-        result = data.decode(encoding)
-        if result:
-            json_data = json.loads(result)
-            return json_data
-        else:
-            return {}
 
     def oauth2_access_parser(self, raw_access):
         """Parse oauth2 access

@@ -15,13 +15,13 @@ def read(fname):
 setup(
   name = "yahoo_oauth",
   version = __version__,
-  description = "Python Yahoo OAuth Library",
+  description = "Python Yahoo OAuth Library. Supports OAuth1 and OAuth2",
   long_description = read("README.rst"),
   author = __author__,
   author_email = __email__,
   url = "https://github.com/josuebrunel/yahoo-oauth",
   download_url = "https://github.com/josuebrunel/yahoo-oauth/archive/{0}.tar.gz".format(__version__),
-  keywords = ['yahoo','oauth'],
+  keywords = ['yahoo','oauth','oauth1', 'oauth2'],
   packages = find_packages(),
   classifiers = [
     'Programming Language :: Python :: 2.7',
