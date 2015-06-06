@@ -5,7 +5,7 @@ import os, pdb, logging, unittest
 import myql
 from myql.utils import pretty_json
 
-from yahoo_oauth import json_write_data, json_get_data
+from yahoo_oauth.yahoo_oauth import json_write_data, json_get_data
 from yahoo_oauth import OAuth1, OAuth2
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
