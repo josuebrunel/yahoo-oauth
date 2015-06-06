@@ -1,5 +1,5 @@
-rm -rf credentials.json
-wget http://212.83.154.157/public/credentials.json
+wget $oauth1
+wget $oauth2
 
 if [ ! -z $1 ]; then
     TestCase=".${1}"
@@ -15,4 +15,3 @@ fi
 
 
 python -m unittest tests$TestCase$Test
-rm -rf test.json
