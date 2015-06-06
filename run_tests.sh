@@ -1,6 +1,3 @@
-wget $oauth1
-wget $oauth2
-
 if [ ! -z $1 ]; then
     TestCase=".${1}"
 else
