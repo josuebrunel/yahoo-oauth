@@ -109,12 +109,10 @@ class BaseOAuth(object):
         
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
-                #self.session = self.refresh_token() 
-                json_data.update(self.refresh_token())
+                json_data.update(self.refresh_access_token())
         elif vars(self).get('access_token') and vars(self).get('token_type') and vars(self).get('refresh_token'):
             if not self.token_is_valid():
-                #self.session = self.refresh_token()
-                json_data.update(self.refresh_token)
+                json_data.update(self.refresh_access_token())
         else:
             json_data.update(self.handler()) 
         
@@ -186,8 +184,6 @@ class BaseOAuth(object):
     def custom_decoder(self, data, encoding='utf-8'):
         """Custom decoder for auth_session
         """
-        import pdb
-        pdb.set_trace()
         result = data.decode(encoding)
         if result:
             json_data = json.loads(result)
@@ -211,19 +207,23 @@ class BaseOAuth(object):
         
         return credentials
 
-    def refresh_token(self,):
+    def refresh_access_token(self,):
         """Refresh access token
         """
         logging.debug("REFRESHING TOKEN")
         self.token_time = time.time()
+        credentials = {
+            'token_time': self.token_time
+        }
+
         if self.oauth_version == 'oauth1':
             self.access_token, self.access_token_secret = self.oauth.get_access_token(self.access_token, self.access_token_secret, params={"oauth_session_handle": self.session_handle})
-            credentials = {
+            credentials.update({
                 'access_token': self.access_token,
                 'access_token_secret': self.access_token_secret,
                 'session_handle': self.session_handle,
                 'token_time': self.token_time
-            }
+            })
         else:
             headers = self.generate_oauth2_headers()
 
