@@ -16,6 +16,5 @@ env:
   - secure: AHfzuvNGZIWHJeXzNhVVmMI1EPyu6ZBiuVjWP6kox6shq3zYwn5dxcU0tC62nIjYi/QQvnC0x0wpzZqXv/9yMtRzLukg4LFxuBl1o5FzpxGJZZgtKf0GC1u0Cp+b5GCT62Fdpn2LYramWKBHlF05atUYgyST8H2zaHe/SmQnjhmlki4nSJUfVmG40/hrGyemtELIHoQy85ujvjFV18p+7MTL+ySc9E13P1JrgecV8uZ7Ya8ajAHU/gqFFRupdS5cOpje+MuasltCZPcb74xWfECvoZqbWurj4UCRBTs80oxulkmVJTWbzB9KWjoqOSJQqJfI1LIZod6OJEsdVENBEH7HZ6El9U2KZ54FIYDNnO704jPQp/WC8YXFvzZucgsFWb2RS0PZ77CwHLrGdoPn3y8Rm7gHb4QHTOuhQSi9dzl+XdZzVpduaT9Z7LRej/31LOAmrQyRMgoiYiRf183yx8guhSYwaC+EHodCOq0HSKEYfxWVlrwML17vFhjD5A0kOSJ2cc0A7QmOjYlUJ5VI5A57re9PFg5g7yd7TIX+6vZ4GVdv3alCeP58u1QSeH96aTYMeiszI9GVTE5AjdaPD+K28TDb9U+PuqBXILKUH/pDlXtYLNqDPUDiD+seOH1UXKrpG00kTWQ/q7lQ6thHZORfOSNe7i//pdKBy1cfbC8=
 before_install:
 - openssl aes-256-cbc -K $encrypted_6d515aab85d8_key -iv $encrypted_6d515aab85d8_iv
-  -in oauth2.json.enc -out oauth2.json -d
-- openssl aes-256-cbc -K $encrypted_6d515aab85d8_key -iv $encrypted_6d515aab85d8_iv
-  -in oauth1.json.enc -out oauth1.json -d
+  -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
