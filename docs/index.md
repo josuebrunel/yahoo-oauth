@@ -82,3 +82,13 @@ if not oauth.token_is_valid():
 # Example
 response = oauth.session.get(url, params=payload)
 ```
+
+## Methods
+
+#### ***token_is_valid()***
+
+Check wether the token has expired or not
+
+#### ***refresh_access_token()***
+
+Refresh the access token
