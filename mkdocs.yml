@@ -5,4 +5,5 @@ site_description: Documentation on the Yahoo-OAuth Library
 site_author: Josue Kouka
 pages:
 -  Home : index.md
+-  BaseOAuth: oauth.md
 theme: readthedocs

@@ -67,8 +67,10 @@ class BaseOAuth(object):
         access_token : access token
         access_token_secret : access token secret
         from_file : file containing the credentials
+        base_url : Base url
         """
         self.oauth_version = oauth_version
+        json_data = {}
         
         if kwargs.get('from_file'):
             logging.debug("Checking ")
@@ -122,7 +124,7 @@ class BaseOAuth(object):
         else:
             self.session = self.oauth.get_session(token=self.access_token)
 
-        json_write_data(json_data, self.from_file)
+        json_write_data(json_data, vars(self).get('from_file','secrets.json'))
 
 
     def handler(self,):
@@ -148,7 +150,7 @@ class BaseOAuth(object):
         credentials = {'token_time': self.token_time}
         
         if self.oauth_version == 'oauth1':
-            raw_access = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": verifier})
+            raw_access = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": self.verifier})
             parsed_access = parse_utf8_qsl(raw_access.content)
 
             self.access_token = parsed_access['oauth_token']
