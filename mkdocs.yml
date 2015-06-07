@@ -4,5 +4,5 @@ site_url: http://yahoo-oauth.readthedocs.org/en/latest/yahoo-oauth/
 site_description: Documentation on the Yahoo-OAuth Library
 site_author: Josue Kouka
 pages:
--    [index.md, Yahoo OAuth]
+-  Home : index.md
 theme: readthedocs
