@@ -3,6 +3,7 @@ repo_url: https://github.com/josuebrunel/yahoo-oauth
 site_url: http://yahoo-oauth.readthedocs.org/en/latest/yahoo-oauth/
 site_description: Documentation on the Yahoo-OAuth Library
 site_author: Josue Kouka
+google_analytics: ['UA-32441224-5', 'yahoo-oauth.readthedocs.org']
 pages:
 -  Home : index.md
 -  BaseOAuth: oauth.md
