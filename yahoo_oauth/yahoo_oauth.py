@@ -124,7 +124,7 @@ class BaseOAuth(object):
         else:
             self.session = self.oauth.get_session(token=self.access_token)
 
-        json_write_data(json_data, self.from_file)
+        json_write_data(json_data, vars(self).get('from_file','secrets.json'))
 
 
     def handler(self,):
