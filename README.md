@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/yahoo-oauth/badge/?version=latest)](https://readthedocs.org/projects/yahoo-oauth/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/dm/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
-[![PyPI](https://img.shields.io/pypi/pyversions/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
+[![PyPI](https://img.shields.io/pypi/pyversions/yahoo_oauth.svg)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/implementation/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![Coverage Status](https://coveralls.io/repos/josuebrunel/yahoo_oauth/badge.svg?branch=dev)](https://coveralls.io/r/josuebrunel/yahoo_oauth?branch=dev)
 [![PyPI](https://img.shields.io/pypi/l/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
