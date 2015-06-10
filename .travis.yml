@@ -20,5 +20,5 @@ before_install:
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 after_success:
-    - coverage reports
+    - coverage report
     - coveralls
