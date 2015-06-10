@@ -1,15 +1,16 @@
 language: python
 python:
-- '2.7'
-- '3.2'
-- '3.3'
-- '3.4'
-- pypy
-- pypy3
+    - '2.7'
+    - '3.2'
+    - '3.3'
+    - '3.4'
+    - pypy
+    - pypy3
 install:
-- pip install -r requirements.txt
-- pip install myql
-script: "./run_tests.sh"
+    - pip install -r requirements.txt
+    - pip install myql coverage coveralls
+script:
+    - coverage run --source=yahoo_oauth -m unittest discover
 env:
   global:
   - secure: UeQ8wCwJBCyvCpqvYyJtJImdsEkIUioFF2UOFtQmw9aT601lvF5wfSohFPWHSGaJaIu+6TiiZgybQwj9EW44tJvb1E20n6AY1rxsL6zUtsWfAFvNF9DxLGEH5RCIPyyCkBxBFIObV8Md58E4VY+vCKdy3RyXbmK8bhC7/ioD7cQwjeKwd46PWgjllW4JxCXSbLkY4FJ3hAHMccE/njpA3dy4LD4+SxPiiOU+HIJoY4GOtRQG3LSNK1ZIMC15OMN954ZLkbLUAf5KZqonc9RoFaZuXgCAAuogIgxUQXO40HmqqIE+HTPvwAT+idH2NIZvvWg9IDVe8MdIgFUuGTTcveAh7KLKZCL0Qv8vHefvFOT+lIEoJ6AVlAjCFBUIInNswUyRySa7UD1JZ6txW8BqyykPNta68n0D4RH9ri+MxPpxcBHmaAbDGAl+qEsLa6gjOmULOIP+0QzrGt5LzomrIKZ77w2VA0sDHhis4wEQCcjSZs8HeixqNeCyV+mabUKWu8pQ6jPCwmOW+XZ/hLDm06x89okeS17ejJRrQdK88h7S0vXgTEX2vdpyQfFReOa/s8ssVDbLUQ2xvLM/zPU8itfV0gK8ANHLBYjNqDW51rYXAJSOQfJVA/4RMk4Hmx8EF8EUs6k5oi+GW9ITso5ohnVLeASMyaEYpmdT8O9e7NQ=
