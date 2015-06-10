@@ -4,18 +4,12 @@
 [![Documentation Status](https://readthedocs.org/projects/yahoo-oauth/badge/?version=latest)](https://readthedocs.org/projects/yahoo-oauth/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/dm/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
-[![PyPI](https://img.shields.io/pypi/pyversions/yahoo_oauth.svg)](https://pypi.python.org/pypi/yahoo_oauth)
-[![PyPI](https://img.shields.io/pypi/implementation/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
-[![Coverage Status](https://coveralls.io/repos/josuebrunel/yahoo_oauth/badge.svg?branch=dev)](https://coveralls.io/r/josuebrunel/yahoo_oauth?branch=dev)
+[![PyPI](https://img.shields.io/pypi/pyversions/yahoo-oauth.svg)](https://pypi.python.org/pypi/yahoo_oauth)
+[![PyPI](https://img.shields.io/pypi/implementation/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
+[![Coverage Status](https://coveralls.io/repos/josuebrunel/yahoo-oauth/badge.svg?branch=dev)](https://coveralls.io/r/josuebrunel/yahoo-oauth?branch=dev)
 [![PyPI](https://img.shields.io/pypi/l/yahoo_oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 
-Yahoo_OAuth is a very easy to use OAuth python library for Yahoo! APIs. 
-
-#### Supported Versions of Python
-* 2.7
-* 3.2
-* 3.3
-* 3.4
+Yahoo_OAuth is a very easy to use OAuth library for Yahoo! APIs. 
 
 ## Installation
 
