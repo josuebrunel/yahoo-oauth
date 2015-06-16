@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/josuebrunel/yahoo-oauth.svg?branch=master)](https://travis-ci.org/josuebrunel/yahoo-oauth)
 [![Documentation Status](https://readthedocs.org/projects/yahoo-oauth/badge/?version=latest)](https://readthedocs.org/projects/yahoo-oauth/?badge=latest)
+[![Code Health](https://landscape.io/github/josuebrunel/yahoo-oauth/master/landscape.svg?style=flat)](https://landscape.io/github/josuebrunel/yahoo-oauth/master)
 [![PyPI](https://img.shields.io/pypi/v/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/dm/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/pyversions/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
