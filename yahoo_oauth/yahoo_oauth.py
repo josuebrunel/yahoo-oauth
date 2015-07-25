@@ -16,30 +16,14 @@ import webbrowser
 
 import base64
 
-from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
-from yahoo_oauth.utils import json_get_data, json_write_data
+from yahoo_oauth.utils import json_get_data, json_write_data, services, CALLBACK_URI
 from yahoo_oauth.logger import YahooLogger
 
 logging.setLoggerClass(YahooLogger)
 logger = logging.getLogger('yahoo_oauth')
 logger.propagate = False
-
-services = {
-    'oauth1': dict(
-        SERVICE = OAuth1Service,
-        REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token",
-        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token",
-        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth"
-    ),
-    'oauth2': dict(
-        SERVICE = OAuth2Service,
-        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth2/request_auth",
-        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
-    )
-}
-CALLBACK_URI = 'oob'
 
 
 class BaseOAuth(object):
