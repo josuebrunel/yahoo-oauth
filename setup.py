@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 #requirements.txt
 with open('requirements.txt') as f:
