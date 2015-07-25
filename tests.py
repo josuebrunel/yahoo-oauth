@@ -11,7 +11,7 @@ from yahoo_oauth import OAuth1, OAuth2
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 oauth_logger = logging.getLogger('yahoo_oauth')
 
-#oauth_logger.disabled = True
+oauth_logger.disabled = False
 
 class TestYahooOAuth(unittest.TestCase):
     """Class to tests Yahoo OAuth module
@@ -24,8 +24,8 @@ class TestYahooOAuth(unittest.TestCase):
         pass
 
     def test_1_json_write_data(self,):
-        json_write_data(self.d, 'test.json')
-        self.assertEquals(os.path.exists('test.json'),True)
+        json_write_data(self.d, 'data.json')
+        self.assertEquals(os.path.exists('data.json'),True)
 
     def test_2_json_get_data(self,):
         json_data = json_get_data('test.json')
