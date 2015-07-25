@@ -28,7 +28,7 @@ class TestYahooOAuth(unittest.TestCase):
         self.assertEquals(os.path.exists('data.json'),True)
 
     def test_2_json_get_data(self,):
-        json_data = json_get_data('test.json')
+        json_data = json_get_data('data.json')
         self.assertEquals(self.d,json_data)
 
     def test_oauth1(self,):
