@@ -22,6 +22,7 @@ from rauth.utils import parse_utf8_qsl
 from yahoo_oauth.logger import YahooLogger
 
 logging.setLoggerClass(YahooLogger)
+logger = logging.getLogger('yahoo-oauth')
 
 services = {
     'oauth1': dict(
@@ -73,7 +74,7 @@ class BaseOAuth(object):
         json_data = {}
         
         if kwargs.get('from_file'):
-            logging.debug("Checking ")
+            logger.debug("Checking ")
             self.from_file = kwargs.get('from_file')
             json_data = json_get_data(self.from_file)
             vars(self).update(json_data)
@@ -135,12 +136,12 @@ class BaseOAuth(object):
 
         if self.oauth_version == 'oauth1':
             request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': self.callback_uri})
-            logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
+            logger.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
             authorize_url = self.oauth.get_authorize_url(request_token)
         else:
             authorize_url = self.oauth.get_authorize_url(client_secret=self.consumer_secret, redirect_uri=self.callback_uri, response_type='code')
 
-        logging.debug("AUTHORISATION URL : {0}".format(authorize_url))
+        logger.debug("AUTHORISATION URL : {0}".format(authorize_url))
         # Open authorize_url
         webbrowser.open(authorize_url)
         self.verifier = input("Enter verifier : ")
@@ -200,7 +201,7 @@ class BaseOAuth(object):
     def refresh_access_token(self,):
         """Refresh access token
         """
-        logging.debug("REFRESHING TOKEN")
+        logger.debug("REFRESHING TOKEN")
         self.token_time = time.time()
         credentials = {
             'token_time': self.token_time
@@ -226,12 +227,12 @@ class BaseOAuth(object):
         """Check the validity of the token :3600s
         """
         elapsed_time = time.time() - self.token_time
-        logging.debug("ELAPSED TIME : {0}".format(elapsed_time))
+        logger.debug("ELAPSED TIME : {0}".format(elapsed_time))
         if elapsed_time > 3540: # 1 minute before it expires
-            logging.debug("TOKEN HAS EXPIRED")
+            logger.debug("TOKEN HAS EXPIRED")
             return False
 
-        logging.debug("TOKEN IS STILL VALID")
+        logger.debug("TOKEN IS STILL VALID")
         return True
 
 

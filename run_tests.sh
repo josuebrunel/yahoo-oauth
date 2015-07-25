@@ -10,5 +10,6 @@ else
     Test=''
 fi
 
-
 python -m unittest tests$TestCase$Test
+coverage report
+coverage html
