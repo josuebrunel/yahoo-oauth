@@ -93,6 +93,15 @@ if not oauth.token_is_valid():
 response = oauth.session.get(url, params=payload)
 ```
 
+### Tips
+
+* How to disable **Yahoo_OAuth Logger**
+```python
+import logging
+oauth_logger = logging.getLogger('yahoo_oauth')
+oauth_logger.disabled = True
+```
+
 ## Contribute
 
 Any kind of contribution is welcomed.

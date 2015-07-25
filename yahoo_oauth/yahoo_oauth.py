@@ -16,45 +16,14 @@ import webbrowser
 
 import base64
 
-from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
-logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
-logging.getLogger('yahoo-oauth')
+from yahoo_oauth.utils import json_get_data, json_write_data, services, CALLBACK_URI
+from yahoo_oauth.logger import YahooLogger
 
-
-services = {
-    'oauth1': dict(
-        SERVICE = OAuth1Service,
-        REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token",
-        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token",
-        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth"
-    ),
-    'oauth2': dict(
-        SERVICE = OAuth2Service,
-        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth2/request_auth",
-        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
-    )
-}
-CALLBACK_URI = 'oob'
-
-
-def json_write_data(json_data, filename):
-    """Write json data into a file
-    """
-    with open(filename, 'w') as fp:
-        json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
-        return True
-    return False
-
-def json_get_data(filename):
-    """Get data from json file
-    """
-    with open(filename) as fp:
-        json_data = json.load(fp)
-        return json_data
-
-    return False
+logging.setLoggerClass(YahooLogger)
+logger = logging.getLogger('yahoo_oauth')
+logger.propagate = False
 
 
 class BaseOAuth(object):
@@ -73,7 +42,7 @@ class BaseOAuth(object):
         json_data = {}
         
         if kwargs.get('from_file'):
-            logging.debug("Checking ")
+            logger.debug("Checking ")
             self.from_file = kwargs.get('from_file')
             json_data = json_get_data(self.from_file)
             vars(self).update(json_data)
@@ -135,12 +104,12 @@ class BaseOAuth(object):
 
         if self.oauth_version == 'oauth1':
             request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': self.callback_uri})
-            logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
+            logger.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
             authorize_url = self.oauth.get_authorize_url(request_token)
         else:
             authorize_url = self.oauth.get_authorize_url(client_secret=self.consumer_secret, redirect_uri=self.callback_uri, response_type='code')
 
-        logging.debug("AUTHORISATION URL : {0}".format(authorize_url))
+        logger.debug("AUTHORISATION URL : {0}".format(authorize_url))
         # Open authorize_url
         webbrowser.open(authorize_url)
         self.verifier = input("Enter verifier : ")
@@ -200,7 +169,7 @@ class BaseOAuth(object):
     def refresh_access_token(self,):
         """Refresh access token
         """
-        logging.debug("REFRESHING TOKEN")
+        logger.debug("REFRESHING TOKEN")
         self.token_time = time.time()
         credentials = {
             'token_time': self.token_time
@@ -226,12 +195,12 @@ class BaseOAuth(object):
         """Check the validity of the token :3600s
         """
         elapsed_time = time.time() - self.token_time
-        logging.debug("ELAPSED TIME : {0}".format(elapsed_time))
+        logger.debug("ELAPSED TIME : {0}".format(elapsed_time))
         if elapsed_time > 3540: # 1 minute before it expires
-            logging.debug("TOKEN HAS EXPIRED")
+            logger.debug("TOKEN HAS EXPIRED")
             return False
 
-        logging.debug("TOKEN IS STILL VALID")
+        logger.debug("TOKEN IS STILL VALID")
         return True
 
 

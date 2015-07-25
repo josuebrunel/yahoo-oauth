@@ -10,5 +10,7 @@ else
     Test=''
 fi
 
-
-python -m unittest tests$TestCase$Test
+coverage run --source=yahoo_oauth -m unittest discover
+#python -m unittest tests$TestCase$Test
+coverage report
+coverage html
