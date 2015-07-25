@@ -19,9 +19,9 @@ import base64
 from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
-logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
-logging.getLogger('yahoo-oauth')
+from yahoo_oauth.logger import YahooLogger
 
+logging.setLoggerClass(YahooLogger)
 
 services = {
     'oauth1': dict(
