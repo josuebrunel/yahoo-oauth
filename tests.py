@@ -11,6 +11,8 @@ from yahoo_oauth import OAuth1, OAuth2
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger('yahoo-oauth')
 
+logging.getLogger('yahoo-oauth').setLevel(logging.WARNING)
+
 class TestYahooOAuth(unittest.TestCase):
     """Class to tests Yahoo OAuth module
     """
