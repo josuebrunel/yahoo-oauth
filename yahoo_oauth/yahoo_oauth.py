@@ -19,10 +19,12 @@ import base64
 from rauth import OAuth1Service, OAuth2Service
 from rauth.utils import parse_utf8_qsl
 
+from yahoo_oauth.utils import json_get_data, json_write_data
 from yahoo_oauth.logger import YahooLogger
 
 logging.setLoggerClass(YahooLogger)
-logger = logging.getLogger('yahoo-oauth')
+logger = logging.getLogger('yahoo_oauth')
+logger.propagate = False
 
 services = {
     'oauth1': dict(
@@ -38,24 +40,6 @@ services = {
     )
 }
 CALLBACK_URI = 'oob'
-
-
-def json_write_data(json_data, filename):
-    """Write json data into a file
-    """
-    with open(filename, 'w') as fp:
-        json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
-        return True
-    return False
-
-def json_get_data(filename):
-    """Get data from json file
-    """
-    with open(filename) as fp:
-        json_data = json.load(fp)
-        return json_data
-
-    return False
 
 
 class BaseOAuth(object):
