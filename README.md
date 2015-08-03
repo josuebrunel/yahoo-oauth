@@ -44,6 +44,7 @@ Once you acquired your access_token, this file will look like :
     "access_token_secret": "99a20a82e99THE_A_Tf803cb153f3d98", 
     "consumer_key": "dj0yJmk9e_THIS_IS_THE_CK_RGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iNQ--", 
     "consumer_secret": "08802b459abTHIS_IS_THE_CS4b75789f7", 
+    "guid": "AJHDHJMYGUID",
     "session_handle": "APIENFXij.bjFW_MY_SESSION_EXn.4.DOIYOR37", 
     "token_time": 1433546792.343515
 }
@@ -56,6 +57,7 @@ Once you acquired your access_token, this file will look like :
     "access_token": "DELvMgOYvwPQJS8eFW_2hRN5rJxz6dnHAOk2s.qB0iMIeRg5.ZpW3xZF0p8CABLjZ2gfNdE602dCN2wTHdGHHLtChF3ls9BUuZ1QDdqIVq.yWclfweleyZSq6dAzlPEHiskWmfItjHK5VERY_LONG_ACCESS_TOKEN_oyyD4cIKvdNJsJ9k779mAUqN02_5ugBeDfCLebqjL8uVuunObew0ERa2MxE6jywNY0TTCe9W0nqTd6n0lKoN4PSP1Dw_Ifwx6enGuhUUAhhpa7nNMyhNy_pe6PfDf7IJ5gbkdtw3mD1o2T218ZTV0owdrKDLSF9oZrNvZ75xDlqaaI5yeW_.L63zk11PjsWUd5K8LGhWSTgRbyhffCDBcqVwTYEqHwCyVqHX4z2kgHhGsc0ies6WMG33kSw5Cgun0fnPbdDuHBgQziXU.GMv4hIDoIDMSLGpzpcpkyx4GS1CC_RUQwKxLilR3MQy7X2gI3cJA4lhRPlXEOdhS5HIQiQTgMWO9nWt7.RR7XtXVg-",
     "consumer_key": "dj0yJmk9eFJINERDYWMY_CONSUMER_KEYmRGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iNQ--",
     "consumer_secret": "08802b459ab48eeaMY_CONSUMER_SECRET_0af6a4b75789f7",
+    "guid": "AJHDHJMYGUID",
     "refresh_token": "APIENFXij.bjFW1tEcr2THE_REFRESH_TOKEN_Xn.4.DOIYOR37",
     "token_time": 1433553339.706037,
     "token_type": "bearer"
@@ -65,6 +67,8 @@ Once you acquired your access_token, this file will look like :
 With that you should be good to go.
 
 Normally, once your got all that, you can ***use the same credentials FOREVER***, you just have to ***REFRESH THEM***. 
+
+## Examples
 
 ### OAuth1
 
@@ -94,6 +98,15 @@ response = oauth.session.get(url, params=payload)
 ```
 
 ### Tips
+
+* How to get your Global Unique Identifier (GUID)
+```python
+from yahoo_oauth import OAuth2
+
+oauth = OAuth2('consumer_key', 'consumer_secret')
+guid = oauth.guid
+
+```
 
 * How to disable **Yahoo_OAuth Logger**
 ```python
