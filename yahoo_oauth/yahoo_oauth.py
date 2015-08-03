@@ -121,16 +121,17 @@ class BaseOAuth(object):
         if self.oauth_version == 'oauth1':
             raw_access = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": self.verifier})
             parsed_access = parse_utf8_qsl(raw_access.content)
-
             self.access_token = parsed_access['oauth_token']
             self.access_token_secret = parsed_access['oauth_token_secret']
             self.session_handle = parsed_access['oauth_session_handle']
+            self.guid = parsed_access['xoauth_yahoo_guid']
             
             # Updating credentials 
             credentials.update({
                 'access_token': self.access_token,
                 'access_token_secret': self.access_token_secret,
-                'session_handle': self.session_handle
+                'session_handle': self.session_handle,
+                'guid': self.guid
             })
         else:
             # Building headers 
@@ -146,7 +147,10 @@ class BaseOAuth(object):
         """Generates header for oauth2
         """
         encoded_credentials = base64.b64encode(('{0}:{1}'.format(self.consumer_key,self.consumer_secret)).encode('utf-8'))
-        headers={'Authorization':'Basic {0}'.format(encoded_credentials.decode('utf-8'))}
+        headers={
+            'Authorization':'Basic {0}'.format(encoded_credentials.decode('utf-8')),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
 
         return headers
 
@@ -157,11 +161,13 @@ class BaseOAuth(object):
         self.access_token = parsed_access['access_token']
         self.token_type = parsed_access['token_type']
         self.refresh_token = parsed_access['refresh_token']
+        self.guid = parsed_access['xoauth_yahoo_guid']
 
         credentials = {
             'access_token': self.access_token,
             'token_type': self.token_type,
-            'refresh_token': self.refresh_token
+            'refresh_token': self.refresh_token,
+            'guid': self.guid
         }
         
         return credentials
