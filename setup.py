@@ -1,7 +1,9 @@
 import os
 from setuptools import setup, find_packages
 
-from yahoo_oauth import __author__, __email__, __version__
+__author__ = 'Josue Kouka'
+__email__ = 'josuebrunel@gmail.com'
+__version__ = '0.1.7'
 
 #requirements.txt
 with open('requirements.txt') as f:
