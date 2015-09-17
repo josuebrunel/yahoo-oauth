@@ -55,3 +55,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Dev
+data.json
+data.yml
+oauth*.*
+secrets.tar
