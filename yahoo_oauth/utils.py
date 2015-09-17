@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import json
+import yaml
 from rauth import OAuth1Service, OAuth2Service
 
 services = {
@@ -36,4 +37,20 @@ def json_get_data(filename):
 
     return False
 
+def yaml_get_data(filename):
+    """Get data from .yml file
+    """
+    with open(filename, 'rb') as fd:
+        yaml_data = yaml.load(fd)
+        return yaml_data
+    return False
+
+def yaml_write_data(yaml_data, filename):
+    """Write data into a .yml file
+    """
+    with open(filename, 'w') as fd:
+        yaml.dump(yaml_data, fd, default_flow_style=False)
+        return True
+
+    return False
 
