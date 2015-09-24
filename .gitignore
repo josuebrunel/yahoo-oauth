@@ -61,3 +61,4 @@ data.json
 data.yml
 oauth*.*
 secrets.tar
+*.swp
