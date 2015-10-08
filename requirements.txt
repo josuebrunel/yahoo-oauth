@@ -1,2 +1,3 @@
 rauth>=0.7.1
-requests>=2.7.0
+requests>=2.8.0
+pyaml>=3.11
