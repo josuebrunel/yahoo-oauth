@@ -1,7 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+
+import os
 import json
 import yaml
+
 from rauth import OAuth1Service, OAuth2Service
 
 services = {
@@ -19,6 +22,23 @@ services = {
 }
 
 CALLBACK_URI = 'oob'
+
+def get_file_extension(filename):
+    return os.path.splitext(filename)
+
+def get_data(filename):
+    """Calls right function according to file extension
+    """
+    ext = get_file_extension(filename)
+    func = json_get_data if ext == '.json' else yaml_get_data
+    return func(filename)
+
+def write_data(data, filename):
+    """Call right func to save data according to file extension
+    """
+    ext = get_file_extension(filename)
+    func = json_write_data if ext == '.json' else yaml_write_data
+    return func(data, filename)
 
 def json_write_data(json_data, filename):
     """Write json data into a file
