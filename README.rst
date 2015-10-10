@@ -21,7 +21,7 @@ required.
 -  ***consumer*\ key**\ \_
 -  ***consumer*\ secret**\ \_
 
-I recommend putting those two into a file. Only ***json*** files are
+I recommend putting those two into a file. Only ***json*** and ***yaml*** files are
 supported
 
 .. code:: json

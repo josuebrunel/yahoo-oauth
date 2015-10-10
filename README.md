@@ -25,7 +25,7 @@ Wether you use **OAuth1** or **OAuth2**, only **2** parameters are required.
 * ___consumer_key___ 
 * ___consumer_secret___
 
-I recommend putting those two into a file. Only ***json*** files are supported 
+I recommend putting those two into a file. Only ***json*** and ***yaml*** files are supported 
 
 ```json
 {

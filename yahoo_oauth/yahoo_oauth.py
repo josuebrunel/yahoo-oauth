@@ -18,7 +18,8 @@ import base64
 
 from rauth.utils import parse_utf8_qsl
 
-from yahoo_oauth.utils import json_get_data, json_write_data, services, CALLBACK_URI
+from yahoo_oauth.utils import services, CALLBACK_URI
+from yahoo_oauth.utils import get_data, write_data
 from yahoo_oauth.logger import YahooLogger
 
 logging.setLoggerClass(YahooLogger)
@@ -39,13 +40,13 @@ class BaseOAuth(object):
         base_url : Base url
         """
         self.oauth_version = oauth_version
-        json_data = {}
+        data = {}
         
         if kwargs.get('from_file'):
             logger.debug("Checking ")
             self.from_file = kwargs.get('from_file')
-            json_data = json_get_data(self.from_file)
-            vars(self).update(json_data)
+            data = get_data(self.from_file)
+            vars(self).update(data)
         else:
             self.consumer_key = consumer_key
             self.consumer_secret = consumer_secret
@@ -80,12 +81,12 @@ class BaseOAuth(object):
         
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
-                json_data.update(self.refresh_access_token())
+                data.update(self.refresh_access_token())
         elif vars(self).get('access_token') and vars(self).get('token_type') and vars(self).get('refresh_token'):
             if not self.token_is_valid():
-                json_data.update(self.refresh_access_token())
+                data.update(self.refresh_access_token())
         else:
-            json_data.update(self.handler()) 
+            data.update(self.handler()) 
         
         # Getting session
         if self.oauth_version == 'oauth1':
@@ -93,7 +94,7 @@ class BaseOAuth(object):
         else:
             self.session = self.oauth.get_session(token=self.access_token)
 
-        json_write_data(json_data, vars(self).get('from_file','secrets.json'))
+        write_data(data, vars(self).get('from_file','secrets.json'))
 
 
     def handler(self,):

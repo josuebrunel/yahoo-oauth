@@ -1,3 +1,4 @@
+set -x
 if [ ! -z $1 ]; then
     TestCase=".${1}"
 else
@@ -10,7 +11,6 @@ else
     Test=''
 fi
 
-coverage run --source=yahoo_oauth -m unittest discover
-#python -m unittest tests$TestCase$Test
+coverage run --source=yahoo_oauth -m unittest tests$TestCase$Test
 coverage report
 coverage html
