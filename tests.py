@@ -5,6 +5,7 @@ import os, pdb, logging, unittest
 import myql
 from myql.utils import pretty_json
 
+from yahoo_oauth.utils import write_data, get_data
 from yahoo_oauth.utils import json_write_data, json_get_data
 from yahoo_oauth.utils import yaml_write_data, yaml_get_data
 from yahoo_oauth import OAuth1, OAuth2
@@ -21,18 +22,18 @@ class TestYahooOAuth(unittest.TestCase):
     def test_oauth1(self,):
         oauth = OAuth1(None, None, from_file='oauth1.json')
         yql = myql.MYQL(oauth=oauth)
-        response = yql.getGUID('josue_brunel')
+        response = yql.get_guid('josue_brunel')
         logging.debug(pretty_json(response.content)) 
         self.assertEqual(response.status_code,200)
 
     def test_oauth2(self,):
-        oauth = OAuth2(None, None, from_file='oauth2.json')
+        oauth = OAuth2(None, None, from_file='oauth2.yaml')
         response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
         logging.debug(pretty_json(response.content)) 
         self.assertEqual(response.status_code,200)
 
 
-class TestJSON(unittest.TestSuite):
+class TestJSON(unittest.TestCase):
 
     def setUp(self,):
         self.d = {'ck':'consumer_key','cs':'consumer_secret'} 
@@ -41,11 +42,11 @@ class TestJSON(unittest.TestSuite):
         pass
 
     def test_1_json_write_data(self,):
-        json_write_data(self.d, 'data.json')
+        write_data(self.d, 'data.json')
         self.assertEquals(os.path.exists('data.json'), True)
 
     def test_2_json_get_data(self,):
-        json_data = json_get_data('data.json')
+        json_data = get_data('data.json')
         self.assertEquals(self.d,json_data)
 
 
@@ -61,6 +62,4 @@ class TestYAML(unittest.TestCase):
     def test_2_yaml_get_data(self,):
         yml_data = yaml_get_data('data.yml')
         self.assertEqual(self.d, yml_data)
-
-
 
