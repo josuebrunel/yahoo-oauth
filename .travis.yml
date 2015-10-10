@@ -8,9 +8,9 @@ python:
 - pypy3
 install:
 - pip install -r requirements.txt
-- pip install myql coverage coveralls
+- pip install myql coverage coveralls pytest
 script:
-- coverage run --source=yahoo_oauth -m unittest discover
+- coverage run --source=yahoo_oauth -m pytest -v tests.py
 before_install:
 - openssl aes-256-cbc -K $encrypted_6d515aab85d8_key -iv $encrypted_6d515aab85d8_iv
   -in secrets.tar.enc -out secrets.tar -d
