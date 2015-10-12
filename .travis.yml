@@ -12,9 +12,8 @@ install:
 script:
 - coverage run --source=yahoo_oauth -m pytest -v tests.py
 before_install:
-- openssl aes-256-cbc -K $encrypted_6d515aab85d8_key -iv $encrypted_6d515aab85d8_iv
+- openssl aes-256-cbc -K $encrypted_203a34dfdebf_key -iv $encrypted_203a34dfdebf_iv
   -in secrets.tar.enc -out secrets.tar -d
-- tar xvf secrets.tar
 after_success:
 - coverage report
 - coveralls
