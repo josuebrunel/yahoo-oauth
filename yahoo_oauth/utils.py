@@ -29,14 +29,14 @@ def get_file_extension(filename):
 def get_data(filename):
     """Calls right function according to file extension
     """
-    ext = get_file_extension(filename)
+    name, ext = get_file_extension(filename)
     func = json_get_data if ext == '.json' else yaml_get_data
     return func(filename)
 
 def write_data(data, filename):
     """Call right func to save data according to file extension
     """
-    ext = get_file_extension(filename)
+    name, ext = get_file_extension(filename)
     func = json_write_data if ext == '.json' else yaml_write_data
     return func(data, filename)
 
