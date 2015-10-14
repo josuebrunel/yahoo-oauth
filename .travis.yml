@@ -15,6 +15,7 @@ script:
 before_install:
 - openssl aes-256-cbc -K $encrypted_177fac13197a_key -iv $encrypted_177fac13197a_iv
   -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
 after_success:
 - coverage report
 - coveralls
