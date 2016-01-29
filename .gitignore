@@ -58,7 +58,7 @@ target/
 
 # Dev
 data.json
-data.yml
+data.yaml
 oauth*.*
 secrets.tar
 *.swp
