@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
-import os, pdb, logging, unittest
+import os, pdb, logging
+import pytest
 
 import myql
 from myql.utils import pretty_json
@@ -16,50 +17,43 @@ oauth_logger = logging.getLogger('yahoo_oauth')
 oauth_logger.disabled = False
 
 
-class TestYahooOAuth(unittest.TestCase):
-    """Class to tests Yahoo OAuth module
-    """
-    def test_oauth1(self,):
-        oauth = OAuth1(None, None, from_file='oauth1.json')
-        yql = myql.MYQL(oauth=oauth)
-        response = yql.get_guid('josue_brunel')
-        logging.debug(pretty_json(response.content)) 
-        self.assertEqual(response.status_code,200)
+def test_oauth1():
+    oauth = OAuth1(None, None, from_file='oauth1.json')
+    yql = myql.MYQL(oauth=oauth)
+    response = yql.get_guid('josue_brunel')
+    logging.debug(pretty_json(response.content))
+    response.status_code == 200
 
-    def test_oauth2(self,):
-        oauth = OAuth2(None, None, from_file='oauth2.yaml')
-        response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
-        logging.debug(pretty_json(response.content)) 
-        self.assertEqual(response.status_code,200)
+def test_oauth2():
+    oauth = OAuth2(None, None, from_file='oauth2.yaml')
+    response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
+    logging.debug(pretty_json(response.content))
+    response.status_code == 200
 
+@pytest.fixture
+def data():
+    return {
+        'ck': 'consumer_key',
+        'cs': 'consumer_secret'
+    }
 
-class TestJSON(unittest.TestCase):
+@pytest.fixture
+def data_json():
+    return 'data.json'
 
-    def setUp(self,):
-        self.d = {'ck':'consumer_key','cs':'consumer_secret'} 
+@pytest.fixture
+def data_yaml():
+    return 'data.yaml'
 
-    def tearDown(self):
-        pass
+@pytest.fixture(params=['data_json','data_yaml'])
+def data_format(request, data_json, data_yaml):
+    return locals().get(request.param)
 
-    def test_1_json_write_data(self,):
-        write_data(self.d, 'data.json')
-        self.assertEquals(os.path.exists('data.json'), True)
+def test_write_data(data, data_format):
+    write_data(data, data_format)
+    assert os.path.exists(data_format)
 
-    def test_2_json_get_data(self,):
-        json_data = get_data('data.json')
-        self.assertEquals(self.d,json_data)
-
-
-class TestYAML(unittest.TestCase):
-
-    def setUp(self,):
-        self.d = {'ck': 'consumer_key', 'cs': 'consumer_key'}
-
-    def test_1_yaml_write_data(self,):
-        yaml_write_data(self.d, 'data.yml')
-        self.assertEqual(os.path.exists('data.yml'), True)
-
-    def test_2_yaml_get_data(self,):
-        yml_data = yaml_get_data('data.yml')
-        self.assertEqual(self.d, yml_data)
+def test_get_data(data, data_format):
+    data_stored = get_data(data_format)
+    assert data == data_stored
 
