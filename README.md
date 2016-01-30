@@ -7,7 +7,7 @@
 [![PyPI](https://img.shields.io/pypi/dm/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/pyversions/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 [![PyPI](https://img.shields.io/pypi/implementation/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
-[![Coverage Status](https://coveralls.io/repos/josuebrunel/yahoo-oauth/badge.svg?branch=branch)](https://coveralls.io/r/josuebrunel/yahoo-oauth?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/josuebrunel/yahoo-oauth/badge.svg?branch=master)](https://coveralls.io/r/josuebrunel/yahoo-oauth?branch=master)
 [![PyPI](https://img.shields.io/pypi/l/yahoo-oauth.svg?style=flat)](https://pypi.python.org/pypi/yahoo_oauth)
 
 Yahoo_OAuth is a very easy to use OAuth library for Yahoo! APIs. 
