@@ -8,7 +8,6 @@ try:
 except NameError:
     pass
 
-import pdb
 import json
 import time
 import logging
@@ -41,7 +40,7 @@ class BaseOAuth(object):
         """
         self.oauth_version = oauth_version
         data = {}
-        
+
         if kwargs.get('from_file'):
             logger.debug("Checking ")
             self.from_file = kwargs.get('from_file')
@@ -54,13 +53,13 @@ class BaseOAuth(object):
         vars(self).update(kwargs)
 
         self.oauth_version = oauth_version
-        self.callback_uri = vars(self).get('callback_uri',CALLBACK_URI)
+        self.callback_uri = vars(self).get('callback_uri', CALLBACK_URI)
 
         # Init OAuth
         if self.oauth_version == 'oauth1':
             service_params = {
                 'consumer_key': self.consumer_key,
-                'consumer_secret' : self.consumer_secret,
+                'consumer_secret': self.consumer_secret,
                 'request_token_url': services[self.oauth_version]['REQUEST_TOKEN_URL']
             }
         else:
@@ -70,15 +69,15 @@ class BaseOAuth(object):
             }
 
         service_params.update({
-            'name' : 'yahoo',
-            'access_token_url' : services[self.oauth_version]['ACCESS_TOKEN_URL'],
-            'authorize_url' : services[self.oauth_version]['AUTHORIZE_TOKEN_URL'],
-            'base_url': vars(self).get('base_url',None)
+            'name': 'yahoo',
+            'access_token_url': services[self.oauth_version]['ACCESS_TOKEN_URL'],
+            'authorize_url': services[self.oauth_version]['AUTHORIZE_TOKEN_URL'],
+            'base_url': vars(self).get('base_url', None)
         })
 
         # Defining oauth service
         self.oauth = services[oauth_version]['SERVICE'](**service_params)
-        
+
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
                 data.update(self.refresh_access_token())
@@ -86,16 +85,15 @@ class BaseOAuth(object):
             if not self.token_is_valid():
                 data.update(self.refresh_access_token())
         else:
-            data.update(self.handler()) 
-        
+            data.update(self.handler())
+
         # Getting session
         if self.oauth_version == 'oauth1':
             self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
         else:
             self.session = self.oauth.get_session(token=self.access_token)
 
-        write_data(data, vars(self).get('from_file','secrets.json'))
-
+        write_data(data, vars(self).get('from_file', 'secrets.json'))
 
     def handler(self,):
         """* get request token if OAuth1
@@ -116,9 +114,9 @@ class BaseOAuth(object):
         self.verifier = input("Enter verifier : ")
 
         self.token_time = time.time()
-    
+
         credentials = {'token_time': self.token_time}
-        
+
         if self.oauth_version == 'oauth1':
             raw_access = self.oauth.get_raw_access_token(request_token, request_token_secret, params={"oauth_verifier": self.verifier})
             parsed_access = parse_utf8_qsl(raw_access.content)
@@ -126,8 +124,8 @@ class BaseOAuth(object):
             self.access_token_secret = parsed_access['oauth_token_secret']
             self.session_handle = parsed_access['oauth_session_handle']
             self.guid = parsed_access['xoauth_yahoo_guid']
-            
-            # Updating credentials 
+
+            # Updating credentials
             credentials.update({
                 'access_token': self.access_token,
                 'access_token_secret': self.access_token_secret,
@@ -135,21 +133,21 @@ class BaseOAuth(object):
                 'guid': self.guid
             })
         else:
-            # Building headers 
+            # Building headers
             headers = self.generate_oauth2_headers()
             # Getting access token
-            raw_access = self.oauth.get_raw_access_token(data={"code": self.verifier, 'redirect_uri': self.callback_uri,'grant_type':'authorization_code'}, headers=headers)
-            #parsed_access = parse_utf8_qsl(raw_access.content.decode('utf-8'))
+            raw_access = self.oauth.get_raw_access_token(data={"code": self.verifier, 'redirect_uri': self.callback_uri, 'grant_type': 'authorization_code'}, headers=headers)
+            # parsed_access = parse_utf8_qsl(raw_access.content.decode('utf-8'))
             credentials.update(self.oauth2_access_parser(raw_access))
-                    
+
         return credentials
 
     def generate_oauth2_headers(self):
         """Generates header for oauth2
         """
-        encoded_credentials = base64.b64encode(('{0}:{1}'.format(self.consumer_key,self.consumer_secret)).encode('utf-8'))
-        headers={
-            'Authorization':'Basic {0}'.format(encoded_credentials.decode('utf-8')),
+        encoded_credentials = base64.b64encode(('{0}:{1}'.format(self.consumer_key, self.consumer_secret)).encode('utf-8'))
+        headers = {
+            'Authorization': 'Basic {0}'.format(encoded_credentials.decode('utf-8')),
             'Content-Type': 'application/x-www-form-urlencoded'
         }
 
@@ -170,7 +168,7 @@ class BaseOAuth(object):
             'refresh_token': self.refresh_token,
             'guid': self.guid
         }
-        
+
         return credentials
 
     def refresh_access_token(self,):
@@ -193,8 +191,8 @@ class BaseOAuth(object):
         else:
             headers = self.generate_oauth2_headers()
 
-            raw_access = self.oauth.get_raw_access_token(data={"refresh_token": self.refresh_token, 'redirect_uri': self.callback_uri,'grant_type':'refresh_token'}, headers=headers)
-            credentials.update(self.oauth2_access_parser(raw_access))            
+            raw_access = self.oauth.get_raw_access_token(data={"refresh_token": self.refresh_token, 'redirect_uri': self.callback_uri, 'grant_type': 'refresh_token'}, headers=headers)
+            credentials.update(self.oauth2_access_parser(raw_access))
 
         return credentials
 
@@ -203,7 +201,7 @@ class BaseOAuth(object):
         """
         elapsed_time = time.time() - self.token_time
         logger.debug("ELAPSED TIME : {0}".format(elapsed_time))
-        if elapsed_time > 3540: # 1 minute before it expires
+        if elapsed_time > 3540:  # 1 minute before it expires
             logger.debug("TOKEN HAS EXPIRED")
             return False
 
@@ -216,7 +214,7 @@ class OAuth1(BaseOAuth):
     """
 
     def __init__(self, consumer_key, consumer_secret, **kwargs):
-        
+
         super(OAuth1, self).__init__('oauth1', consumer_key, consumer_secret, **kwargs)
 
 
@@ -225,7 +223,5 @@ class OAuth2(BaseOAuth):
     """
 
     def __init__(self, consumer_key, consumer_secret, **kwargs):
-       
-        super(OAuth2, self).__init__('oauth2', consumer_key, consumer_secret, **kwargs)
 
-     
+        super(OAuth2, self).__init__('oauth2', consumer_key, consumer_secret, **kwargs)

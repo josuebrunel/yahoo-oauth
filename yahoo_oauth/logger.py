@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import logging
-from logging import Logger, handlers
+
 
 class YahooLogger(logging.Logger):
     """Yahoo Logger class
@@ -17,10 +17,9 @@ class YahooLogger(logging.Logger):
         self.level = level
 
         self.setLevel(self.level)
-        
+
         formatter = logging.Formatter("[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
 
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
         self.addHandler(stream_handler)
-
