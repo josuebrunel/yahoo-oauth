@@ -105,7 +105,7 @@ class BaseOAuth(object):
             logger.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
             authorize_url = self.oauth.get_authorize_url(request_token)
         else:
-            authorize_url = self.oauth.get_authorize_url(client_secret=self.consumer_secret, redirect_uri=self.callback_uri, response_type='code')
+            authorize_url = self.oauth.get_authorize_url(redirect_uri=self.callback_uri, response_type='code')
 
         logger.debug("AUTHORISATION URL : {0}".format(authorize_url))
         # Open authorize_url
