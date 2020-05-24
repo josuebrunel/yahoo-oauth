@@ -122,7 +122,7 @@ class BaseOAuth(object):
             self.access_token = parsed_access['oauth_token']
             self.access_token_secret = parsed_access['oauth_token_secret']
             self.session_handle = parsed_access['oauth_session_handle']
-            self.guid = parsed_access['xoauth_yahoo_guid']
+            self.guid = parsed_access.get('xoauth_yahoo_guid', None)
 
             # Updating credentials
             credentials.update({
@@ -160,7 +160,7 @@ class BaseOAuth(object):
         self.access_token = parsed_access['access_token']
         self.token_type = parsed_access['token_type']
         self.refresh_token = parsed_access['refresh_token']
-        self.guid = parsed_access['xoauth_yahoo_guid']
+        self.guid = parsed_access.get('xoauth_yahoo_guid', None)
 
         credentials = {
             'access_token': self.access_token,
