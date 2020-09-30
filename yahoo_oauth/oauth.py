@@ -54,6 +54,11 @@ class BaseOAuth(object):
         self.oauth_version = oauth_version
         self.callback_uri = vars(self).get('callback_uri', CALLBACK_URI)
 
+        if 'browser_callback' in kwargs.keys():
+            self.browser_callback = kwargs.get('browser_callback')
+        else:
+            self.browser_callback = True
+
         # Init OAuth
         if self.oauth_version == 'oauth1':
             service_params = {
@@ -107,10 +112,13 @@ class BaseOAuth(object):
         else:
             authorize_url = self.oauth.get_authorize_url(redirect_uri=self.callback_uri, response_type='code')
 
-        logger.debug("AUTHORISATION URL : {0}".format(authorize_url))
-        # Open authorize_url
-        webbrowser.open(authorize_url)
-        self.verifier = input("Enter verifier : ")
+        logger.debug("AUTHORIZATION URL : {0}".format(authorize_url))
+        if self.browser_callback:
+            # Open authorize_url
+            webbrowser.open(authorize_url)
+            self.verifier = input("Enter verifier : ")
+        else:
+            self.verifier = input("AUTHORIZATION URL : {0}\nEnter verifier : ".format(authorize_url))
 
         self.token_time = time.time()
 
