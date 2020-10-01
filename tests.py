@@ -33,6 +33,13 @@ def test_oauth2():
     assert response.status_code == 200
 
 
+def test_oauth2_without_browser():
+    oauth = OAuth2(None, None, from_file='oauth2.yaml', browser_callback=False)
+    response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
+    logging.debug(pretty_json(response.content))
+    assert response.status_code == 200
+
+
 @pytest.fixture
 def data():
     return {
