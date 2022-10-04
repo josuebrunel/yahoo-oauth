@@ -23,6 +23,8 @@ services = {
 
 CALLBACK_URI = 'oob'
 
+STORE_FILE_FLAG = True
+
 def get_file_extension(filename):
     return os.path.splitext(filename)
 
