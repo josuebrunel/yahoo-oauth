@@ -17,7 +17,7 @@ import base64
 
 from rauth.utils import parse_utf8_qsl
 
-from yahoo_oauth.utils import services, CALLBACK_URI
+from yahoo_oauth.utils import services, CALLBACK_URI, STORE_FILE_FLAG
 from yahoo_oauth.utils import get_data, write_data
 from yahoo_oauth.logger import YahooLogger
 
@@ -53,6 +53,7 @@ class BaseOAuth(object):
 
         self.oauth_version = oauth_version
         self.callback_uri = vars(self).get('callback_uri', CALLBACK_URI)
+        self.store_file = vars(self).get('store_file', STORE_FILE_FLAG)
 
         if 'browser_callback' in kwargs.keys():
             self.browser_callback = kwargs.get('browser_callback')
@@ -97,7 +98,8 @@ class BaseOAuth(object):
         else:
             self.session = self.oauth.get_session(token=self.access_token)
 
-        write_data(data, vars(self).get('from_file', 'secrets.json'))
+        if self.store_file:
+            write_data(data, vars(self).get('from_file', 'secrets.json'))
 
     def handler(self,):
         """* get request token if OAuth1
