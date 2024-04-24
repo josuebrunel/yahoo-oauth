@@ -19,11 +19,14 @@ from rauth.utils import parse_utf8_qsl
 
 from yahoo_oauth.utils import services, CALLBACK_URI, STORE_FILE_FLAG
 from yahoo_oauth.utils import get_data, write_data
-from yahoo_oauth.logger import YahooLogger
 
-logging.setLoggerClass(YahooLogger)
+
 logger = logging.getLogger('yahoo_oauth')
-logger.propagate = False
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter("[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s")
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 
 class BaseOAuth(object):
