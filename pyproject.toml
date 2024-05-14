@@ -12,6 +12,12 @@ pyaml = "^24.4.0"
 rauth = "^0.7.3"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+
+[tool.pytest.ini_options]
+testpaths =["tests.py"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

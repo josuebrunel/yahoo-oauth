@@ -60,6 +60,7 @@ target/
 data.json
 data.yaml
 oauth*.*
+!oauth.py
 secrets.tar
 *.swp
 .python-version
