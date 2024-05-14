@@ -64,3 +64,4 @@ secrets.tar
 *.swp
 .python-version
 poetry.lock
+.vscode
