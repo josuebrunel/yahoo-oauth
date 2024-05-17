@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "yahoo-oauth"
+version = "2.0.1"
+description = "A very easy to use OAuth python library for Yahoo! APIs."
+authors = ["Josue Kouka <josuebrunel@gmail.com>", "DMcP89 <davemcpherson@wochstudios.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyaml = "^24.4.0"
+rauth = "^0.7.3"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+
+[tool.pytest.ini_options]
+testpaths =["tests.py"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
