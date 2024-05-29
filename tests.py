@@ -18,24 +18,16 @@ oauth_logger = logging.getLogger('yahoo_oauth')
 oauth_logger.disabled = False
 
 
-def test_oauth1():
-    oauth = OAuth1(None, None, from_file='oauth1.json')
-    yql = myql.MYQL(oauth=oauth)
-    response = yql.get_guid('josue_brunel')
-    logging.debug(pretty_json(response.content))
-    assert response.status_code == 200
-
-
 def test_oauth2():
     oauth = OAuth2(None, None, from_file='oauth2.yaml')
-    response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
+    response = oauth.session.get('https://fantasysports.yahooapis.com/fantasy/v2/games?format=json')
     logging.debug(pretty_json(response.content))
     assert response.status_code == 200
 
 
 def test_oauth2_without_browser():
     oauth = OAuth2(None, None, from_file='oauth2.yaml', browser_callback=False)
-    response = oauth.session.get('https://social.yahooapis.com/v1/me/guid?format=json')
+    response = oauth.session.get('https://fantasysports.yahooapis.com/fantasy/v2/games?format=json')
     logging.debug(pretty_json(response.content))
     assert response.status_code == 200
 
