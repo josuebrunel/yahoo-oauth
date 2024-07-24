@@ -9,21 +9,13 @@ import myql
 from myql.utils import pretty_json
 
 from yahoo_oauth.utils import write_data, get_data
-from yahoo_oauth import OAuth1, OAuth2
+from yahoo_oauth import  OAuth2
 
 logging.basicConfig(
     level=logging.DEBUG,
     format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 oauth_logger = logging.getLogger('yahoo_oauth')
 oauth_logger.disabled = False
-
-
-def test_oauth1():
-    oauth = OAuth1(None, None, from_file='oauth1.json')
-    yql = myql.MYQL(oauth=oauth)
-    response = yql.get_guid('josue_brunel')
-    logging.debug(pretty_json(response.content))
-    assert response.status_code == 200
 
 
 def test_oauth2():

@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.10"
 pyaml = "^24.4.0"
 rauth = "^0.7.3"
+myql = "^1.2.7"
 
 
 [tool.poetry.group.dev.dependencies]
