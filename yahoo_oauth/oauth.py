@@ -64,17 +64,10 @@ class BaseOAuth(object):
             self.browser_callback = True
 
         # Init OAuth
-        if self.oauth_version == 'oauth1':
-            service_params = {
-                'consumer_key': self.consumer_key,
-                'consumer_secret': self.consumer_secret,
-                'request_token_url': services[self.oauth_version]['REQUEST_TOKEN_URL']
-            }
-        else:
-            service_params = {
-                'client_id': self.consumer_key,
-                'client_secret': self.consumer_secret
-            }
+        service_params = {
+            'client_id': self.consumer_key,
+            'client_secret': self.consumer_secret
+        }
 
         service_params.update({
             'name': 'yahoo',
@@ -96,10 +89,7 @@ class BaseOAuth(object):
             data.update(self.handler())
 
         # Getting session
-        if self.oauth_version == 'oauth1':
-            self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
-        else:
-            self.session = self.oauth.get_session(token=self.access_token)
+        self.session = self.oauth.get_session(token=self.access_token)
 
         if self.store_file:
             write_data(data, vars(self).get('from_file', 'secrets.json'))
