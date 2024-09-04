@@ -10,7 +10,7 @@ pip install yahoo_oauth
 
 ## Quickstart
 
-Wether you use **OAuth1** or **OAuth2**, only **2** parameters are required.
+Only **2** parameters are required to get started
 
 * ___consumer_key___ 
 * ___consumer_secret___
@@ -25,20 +25,6 @@ I recommend putting those two into a file. Only ***json*** and ***yaml*** files 
 ```
 
 Once you acquired your access_token, this file will look like :
-
-* **OAuth1**
-
-```json
-{
-    "access_token": "A=5ZnN5xXY5yKacQp1QtUF68MlEmXVIF8fRplkc7W1QMVYeLJ2DdBmNyH7SxVgUbAjdv5edCnk_DEUbfr6GpqezsSAuE9h36wfh.J45twIo1sA.bqMk7Bta6IisI9z1_h8D0QZzWYmjybxlQcuNgd7TY4nJuu_Afj_8ED787BQbjg6OqRotV.eM4_YyBCjP1K8G6rG44iX2PGNj.JSEJrocgvglABkTTVA_8t.JoLH7NHSgxCQXhakBsk3_K.6Rkgm_Nkc7.ZD02pYy3dJAfBh1fFvtrCwIOqDIplri305dZ1UY430X6SfPnZIFJNiTWkMH8_QRhcnfizG5TZugN_.0ib2VnnUzspeFT0_86p6WMP3uFOLYXspdEOryhSJwFJ3AHZN9n.t8euRQOxanpsvw5M5ffBs6P0dI5FijGw3fibbqoheJOSUE_BRUNEL_KOUKAJSsJCH(^_^)JHllHmJUptK9k5ifiqJOpTbodnW8EsyyNhthDOusv5Bp6142mvCPnC7HX7PkTodHqfgVyAUOvOqSsqMGyc65OY8roLORKpUWObw9bjd8YsU40jwSaGZtWmvVhYV9RxUA779bRuE1k0BL_fvXQ_tlZnxPhtIFBB64szQ9AwA9HT_nZKq8q1rOfUcBIZJ7Zu1jwpZUAOkHsfmHWCW2gK8BC4wjk0WuJg95FpZ2z741mhRcdma2bVYpdh3k2DdaBVYRTDT36Q4SBtreb_GNi1Mctg.RhSqopCTTvW4jjXAkt2SHnscUi37v0yo4JVex0cnVmVTFL7TRl1JMLl9jt0XmaLaKuS4nhR4A--", 
-    "access_token_secret": "99a20a82e99THE_A_Tf803cb153f3d98", 
-    "consumer_key": "dj0yJmk9e_THIS_IS_THE_CK_RGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iNQ--", 
-    "consumer_secret": "08802b459abTHIS_IS_THE_CS4b75789f7", 
-    "guid": "AJHDHJMYGUID",
-    "session_handle": "APIENFXij.bjFW_MY_SESSION_EXn.4.DOIYOR37", 
-    "token_time": 1433546792.343515
-}
-```
 
 * **OAuth2**
 
@@ -57,20 +43,6 @@ Once you acquired your access_token, this file will look like :
 With that you should be good to go.
 
 Normally, once your got all that, you can ***use the same credentials FOREVER***, you just have to ***REFRESH THEM***. 
-
-### OAuth1
-
-```python
-from yahoo_oauth import OAuth1
-oauth = OAuth1(None, None, from_file='oauth1.json')
-...
-
-if not oauth.token_is_valid():
-    oauth.refresh_access_token()
-
-# Example
-response = oauth.session.post(url, data=body)
-```
 
 ### OAuth2
 

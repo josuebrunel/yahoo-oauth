@@ -31,13 +31,13 @@ requirements = read('requirements.txt').splitlines() if os.path.isfile('requirem
 setup(
   name=name,
   version=version_git,
-  description="Python Yahoo OAuth Library. Supports OAuth1 and OAuth2",
+  description="python yahoo oauth library.",
   long_description=read("README.rst"),
   author=__author__,
   author_email=__email__,
   url="https://github.com/josuebrunel/yahoo-oauth",
   download_url="https://github.com/josuebrunel/yahoo-oauth/archive/{0}.tar.gz".format(version_git),
-  keywords=['yahoo', 'oauth', 'oauth1', 'oauth2'],
+  keywords=['yahoo', 'oauth', 'oauth2'],
   packages=find_packages(),
   classifiers=[
     'Programming Language :: Python',

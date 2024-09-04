@@ -5,15 +5,9 @@ import os
 import json
 import yaml
 
-from rauth import OAuth1Service, OAuth2Service
+from rauth import OAuth2Service
 
 services = {
-    'oauth1': dict(
-        SERVICE = OAuth1Service,
-        REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token",
-        ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token",
-        AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth"
-    ),
     'oauth2': dict(
         SERVICE = OAuth2Service,
         AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth2/request_auth",

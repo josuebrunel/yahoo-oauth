@@ -9,7 +9,7 @@ import myql
 from myql.utils import pretty_json
 
 from yahoo_oauth.utils import write_data, get_data
-from yahoo_oauth import OAuth1, OAuth2
+from yahoo_oauth import  OAuth2
 
 logging.basicConfig(
     level=logging.DEBUG,
