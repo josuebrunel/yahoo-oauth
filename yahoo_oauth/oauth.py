@@ -138,13 +138,11 @@ class BaseOAuth(object):
         self.access_token = parsed_access['access_token']
         self.token_type = parsed_access['token_type']
         self.refresh_token = parsed_access['refresh_token']
-        self.guid = parsed_access.get('xoauth_yahoo_guid', None)
 
         credentials = {
             'access_token': self.access_token,
             'token_type': self.token_type,
             'refresh_token': self.refresh_token,
-            'guid': self.guid
         }
         return credentials
 
